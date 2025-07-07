@@ -1,87 +1,47 @@
 package com.example.firstspringboot.services;
 
 import com.example.firstspringboot.models.Employee;
+import com.example.firstspringboot.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HelloWorldService {
-    List<Employee> emp = new ArrayList<>(
-    Arrays.asList (new Employee(1,"Sivadharni","Intern"), new Employee(2,"Thendral","Developer"))
-            );
+    @Autowired
+    EmployeeRepository empRepo;
 
-    public List<Employee> getMethod(){
-
-        return emp;
+    public List<Employee> getMethod() {
+        return empRepo.findAll();
     }
-public Employee getEmployeeById(int empID){
-        int ind = 0;
-        boolean flag = false;
-        for(int i =0;i < emp.size();i++){
-            if(empID == emp.get(i).getEmpID()){
-                System.out.println("Emp_ID: " + emp.get(i).getEmpID()+ emp.get(i));
-                ind = i;
-                flag = true;
-                break;
-            }
-        }
-        if(flag){
-            return emp.get(ind);
-        }
-        else{
-            return new Employee();
-        }
-}
 
-    public String postMethod(Employee employees) {
-        emp.add(employees);
-        return "Employee Added Successfully";
+    public Employee getEmployeeById(int empID) {
+        return empRepo.findById(empID).orElse(new Employee());
+    }
 
+    public Employee getEmployeeByJob(String job) {
+        return (Employee) empRepo.findByJob(job);
+    }
+
+    public String addEmployee(Employee employee) {
+        empRepo.save(employee);
+        return "Employee Added Successfully!!!";
+    }
+
+    public String updateEmployee(Employee employee) {
+        empRepo.save(employee);
+        return "Employee Updated Successfully!!!";
+    }
+
+    public String deleteEmployeeById(int empID) {
+        empRepo.deleteById(empID);
+        return "Employee Deleted Successfully!!!";
     }
 
 
-
-    public String deleteEmployeeByID(int empID) {
-        int ind = 0;
-        boolean flag = false;
-        for(int i =0;i < emp.size();i++){
-            if(empID == emp.get(i).getEmpID()){
-                System.out.println("Emp_ID: " + emp.get(i).getEmpID()+ emp.get(i));
-                ind = i;
-                flag = true;
-                break;
-            }
-        }
-        if(flag){
-            emp.remove(ind);
-            return "Deleted Employee Successfully .";
-        }
-        else{
-            return "No such Employee Present";
-        }
-    }
-
-    public String updateRecord(int empID) {
-        int ind = 0;
-        boolean flag = false;
-        for(int i =0;i < emp.size();i++){
-            if(empID == emp.get(i).getEmpID()){
-                System.out.println("Emp_ID: " + emp.get(i).getEmpID()+ emp.get(i));
-                ind = i;
-                flag = true;
-                break;
-            }
-        }
-        if(flag){
-            Employee employee = null;
-            emp.set(ind,employee);
-            return "updated Employee Successfully";
-        }
-        else{
-            return "No such Employee Present";
-        }
-    }
 }
