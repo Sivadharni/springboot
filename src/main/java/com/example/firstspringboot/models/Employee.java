@@ -17,4 +17,23 @@ public class Employee {
     private int empID;
     private String name;
     private String job;
+
+    public int getid() {
+        return 0;
+    }
+
+    public Object getRole() {
+        return null;
+    }
+
+    public Object getName() {
+        return null;
+    }
+
+    public void setName(Object name) {
+
+    }
+
+    public void setRole(Object role) {
+    }
 }
